@@ -11,6 +11,11 @@ const userSchema = Schema({
         required: [true, 'Surname is required'],
         maxLength: [40, `Can't be overcome 40 characters`]
     },
+    username:{
+        type: String,
+        required: [true, 'Username is required'],
+        maxLength: [30,'Cannot be ovecome 30 characters']
+    },
     email:{
         type: String,
         required: [true, 'Email is required'],
