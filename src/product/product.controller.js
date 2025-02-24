@@ -21,7 +21,7 @@ export const getAllProducts = async (req, res) => {
             status: {$ne : false},
             stock: { $ne: 0}
 
-         }).populate('category', 'name')
+         }).populate('category', 'name -_id')
         if(products.length === 0) return res.status(400).send({message: 'Products not found', succes: false})
             return res.send({message: 'Products found',products, succes: true})
     } catch (err) {
