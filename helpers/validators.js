@@ -16,7 +16,7 @@ export const registerValidator = [
 
 
 export const loginValidator = [
-    body('email', 'Email cannot be empty').notEmpty().toLowerCase(),
+    body('userData','Your information cannot be empty').notEmpty().toLowerCase(),
     body('password', 'Password cannot be empty').notEmpty().isStrongPassword().isLength({min:8}),
     validateErrors       
 ]
@@ -30,6 +30,11 @@ export const addCategoryValidator = [
 export const updateCategoryValidator = [
     body('name', 'Name cannot be a blank').optional().notEmpty(),
     body('description', 'Description cannot be a blank').optional().notEmpty(),
+    validateErrors
+]
+
+export const deleteCategoryValidator = [
+    body('id','Id category is necesary').notEmpty(),
     validateErrors
 ]
 
@@ -75,6 +80,6 @@ export const updateUserAdminValidator = [
     body('password','Password must be strong').optional().notEmpty().isStrongPassword().isLength({min:8}),
     body('phone','Phone cannot be a blank').optional().notEmpty().isMobilePhone().withMessage('invalid phone'),
     body('address','Address cannot be a blank ').optional().notEmpty(),
-    body('role', 'Role cannot be a blank 😒').optional().notEmpty(),
+    body('role', 'Role cannot be a blank ').optional().notEmpty(),
     validateErrors
 ]
