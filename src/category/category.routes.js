@@ -1,6 +1,6 @@
 import { Router } from 'express'
 import { addCategory,getAll, updateCategory,deleteCategory } from './category.controller.js'
-import { addCategoryValidator, updateCategoryValidator} from '../../helpers/validators.js'
+import { addCategoryValidator, updateCategoryValidator, deleteCategoryValidator} from '../../helpers/validators.js'
 import { isAdmin,validateJwt } from '../../middlewares/validate.jwt.js'
 
 
@@ -26,7 +26,8 @@ api.put('/update',
 api.delete('/delete',
     [
         validateJwt,
-        isAdmin
+        isAdmin,
+        deleteCategoryValidator
     ],
     deleteCategory)
 
