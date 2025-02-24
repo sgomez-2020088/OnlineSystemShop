@@ -16,36 +16,38 @@ export const registerUser = async (req, res) => {
     }
 }
 
-
 export const login = async (req, res) => {
     try {
-        let { email, password } = req.body
+        let { userData, password } = req.body
 
+        let user = await User.findOne({
+            $or: [
+                { email: userData },
+                { username: userData }
+            ]
+        })
 
-        let users = await User.findOne({
-             email,
-             status: {$ne: false} 
-            }) 
-        
-        if (users && await checkPassword(users.password, password)) {
-            let loggedUsers = {
-                uid: users._id,
-                name: users.name,
-                username: users.email,
-                role: users.role
-            }
-
-            let token = await generateJwt(loggedUsers)
-            return res.send({
-                message: `Welcome ${users.name}`,
-                loggedUsers,
-                token
-            })
+        if (!user) {
+            return res.status(404).send({ message: 'User not found' })
         }
 
-        return res.status(400).send({ message: `Wrong email or password`, success: false })
+        let passwordMatch = await checkPassword(user.password, password)
+
+        if (passwordMatch) {
+            let loggedUser = {
+                uid: user._id,
+                username: user.username,
+                role: user.role
+            }
+
+            let token = await generateJwt(loggedUser)
+            return res.send({ success: true, message: `Welcome again ${user.name}`, loggedUser, token })
+        }
+
+        return res.status(400).send({ message: 'Wrong password' })
+
     } catch (err) {
         console.error(err)
-        return res.status(500).send({ message: 'General error with login function', success: false })
+        return res.status(500).send({ success: false, message: 'General error'})
     }
-}
+};
