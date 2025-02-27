@@ -83,3 +83,25 @@ export const updateUserAdminValidator = [
     body('role', 'Role cannot be a blank ').optional().notEmpty(),
     validateErrors
 ]
+
+export const productNameValidator = [
+    body('name','Name cannot be empty').notEmpty(),
+    validateErrors
+]
+
+export const productCategoryValidator = [
+    body('category','Category cannot be empty').notEmpty(),
+    validateErrors
+]
+
+export const updateClientValidator = [
+    body('name','Name cannot be a blank').optional().notEmpty(),
+    body('surname','cannot be a blank').optional().notEmpty(),
+    body('email','Email cannot be a blank').optional().notEmpty(),
+    body('email','Invalid email').optional().isEmail().custom(exitEmailUser),
+    body('oldPass','Old password cannot be a blank').optional().notEmpty(),
+    body('newPassowrd','New password must be strong').optional().notEmpty().isStrongPassword().isLength({min:8}),
+    body('phone','Phone cannot be a blank').optional().notEmpty().isMobilePhone().withMessage('invalid phone'),
+    body('address','Address cannot be a blank ').optional().notEmpty(),
+    validateErrors
+]
