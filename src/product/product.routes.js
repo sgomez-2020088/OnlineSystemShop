@@ -1,7 +1,17 @@
 import { Router } from 'express'
-import { addProduct, getAllProducts,getProductById, updateProduct,deleteProduct, getOutOfStock} from '../product/product.controller.js'
+import { 
+    addProduct, 
+    getAllProducts,
+    getProductById, 
+    updateProduct,
+    deleteProduct, 
+    getOutOfStock,
+    productByName,
+    productByCategory
+} from '../product/product.controller.js'
+
 import { validateJwt, isAdmin } from '../../middlewares/validate.jwt.js'
-import { addProductValidator, updateProductValidator } from '../../helpers/validators.js'
+import { addProductValidator, updateProductValidator,productNameValidator, productCategoryValidator } from '../../helpers/validators.js'
 
 
 
@@ -15,6 +25,9 @@ api.put('/update',[validateJwt,isAdmin, updateProductValidator],updateProduct)
 api.delete('/delete',[validateJwt],deleteProduct)
 
 api.get('/stock',getOutOfStock)
+
+api.get('/name',[validateJwt, productNameValidator], productByName) 
+api.get('/category',[validateJwt, productCategoryValidator], productByCategory)
 
 export default api
 
