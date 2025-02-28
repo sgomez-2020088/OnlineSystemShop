@@ -10,6 +10,7 @@ import categoryRoutes from '../src/category/category.routes.js'
 import productRoutes from '../src/product/product.routes.js'
 import userRoutes from '../src/user/user.routes.js'
 import cartRoutes from '../src/cart/cart.routes.js'
+import billRoutes from '../src/bill/bill.routes.js'
 import  {createDefaultAdmin} from '../configs/setUpData.js'
 
 const configs = (app)=>{
@@ -27,6 +28,7 @@ const routes = (app)=>{
     app.use('/v1/product', productRoutes)
     app.use('/v1/user', userRoutes)
     app.use('/v1/cart', cartRoutes)
+    app.use('/v1/bill', billRoutes)
 
 }
 
