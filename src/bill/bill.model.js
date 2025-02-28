@@ -4,30 +4,16 @@ const billSchema = Schema({
     user: {
         type: Types.ObjectId,
         ref: 'User',    
-        required: [true, 'User is required']
     },
-    produts:[
-        {
-            product: {
-                type: Types.ObjectId,
-                ref: 'Product',
-                required: [true, 'Product is required']
-            },
-            quantity: {
-                type: Number,
-                default: 1
-            },
-            price: {
-                type: Number,
-                required: [true, 'Price is required']
-            }
-        }
-    ],
+    cart: {
+        type: Types.ObjectId,
+        ref: 'Cart',    
+        required: [true, 'Cart is required']
+    },
     total:{
         type: Number,
-        required: [true, 'Total is required']
     }
-})
+}, {timestamps: true})
 
 billSchema.methods.toJSON = function (){
     const {__v, _id, ...bill } = this.toObject()
