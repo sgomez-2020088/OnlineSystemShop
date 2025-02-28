@@ -19,8 +19,6 @@ export const addCart = async (req, res) => {
 }
 
 
-
-
 export const getCart = async (req, res) => {
     try {
         const userId = req.user.id
