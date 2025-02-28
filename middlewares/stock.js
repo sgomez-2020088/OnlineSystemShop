@@ -40,29 +40,21 @@ export const checkStock = async (req, res, next) => {
         let cart = await Cart.findOne({ user: userId })
         if (!cart) cart = new Cart({ user: userId, produts: [] })
 
-        const productIndex = cart.produts.findIndex(p => p.product.toString() === productId)
+        const productAdded = cart.produts.findIndex(p => p.product.toString() === productId)
 
-        if (productIndex !== -1) {
-            // Si el producto ya está en el carrito, calcular la nueva cantidad
-            const newQuantity = cart.produts[productIndex].quantity + quantity
+        if (productAdded !== -1) {
+            if (quantity > product.stock) return res.status(400).send({ message: `Cannot add more than available stock (${product.stock})`, success: false })
+            
 
-            if (newQuantity > product.stock) {
-                return res.status(400).send({ message: `Cannot add more than available stock (${product.stock})`, success: false })
-            }
-
-            cart.produts[productIndex].quantity = newQuantity // Actualizar cantidad en el carrito
-            cart.produts[productIndex].totalCart = product.price * newQuantity // Recalcular totalCart
+            cart.produts[productAdded].quantity = quantity
+            cart.produts[productAdded].totalCart = product.price * quantity 
         } else {
-            if (quantity > product.stock) {
-                return res.status(400).send({ message: `Not enough stock for ${product.name}`, success: false })
-            }
-
+            if (quantity > product.stock) return res.status(400).send({ message: `Not enough stock for ${product.name}`, success: false })
+    
             cart.produts.push({ product: productId, quantity, totalCart: product.price * quantity })
         }
 
-        product.stock -= quantity
-        await product.save()
-
+        await cart.save()
         req.cart = cart
         next()
     } catch (err) {
