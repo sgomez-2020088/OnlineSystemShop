@@ -43,7 +43,7 @@ export const checkStock = async (req, res, next) => {
         const productAdded = cart.produts.findIndex(p => p.product.toString() === productId)
 
         if (productAdded !== -1) {
-            if (quantity > product.stock) return res.status(400).send({ message: `Cannot add more than available stock (${product.stock})`, success: false })
+            if (quantity > product.stock) return res.status(400).send({ message: `Cannot add more than available stock`, success: false })
             
 
             cart.produts[productAdded].quantity = quantity
@@ -59,6 +59,6 @@ export const checkStock = async (req, res, next) => {
         next()
     } catch (err) {
         console.error(err)
-        return res.status(500).send({ message: 'Error checking stock', success: false })
+        return res.status(500).send({ message: 'General error', success: false })
     }
 }
