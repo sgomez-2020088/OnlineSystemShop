@@ -2,117 +2,51 @@ import Cart from '../cart/cart.model.js'
 import Product from '../product/product.model.js'
 import Bill from '../bill/bill.model.js'
 
-/*
+
+/*El problema ocurre porque al momento de guardar la factura, solo estamos almacenando el ObjectId del producto en products.product.
+Cuando respondemos con la factura creada, no hemos poblado esos ObjectId con los detalles del producto.
+*/
 export const generateBill = async (req, res) => {
     try {
         const userId = req.user.id
-
-        // Obtener el carrito del usuario con los productos
         const cart = await Cart.findOne({ user: userId })
-            .populate('user', 'name username -_id')
-            .populate('produts.product', 'name price description stock -_id')
+            .populate('user', 'name email -_id')
+            .populate({
+                path: 'produts.product',
+                select: 'name price description -_id'
+            })
 
-        if (!cart || cart.produts.length === 0) {
-            return res.status(400).json({ message: 'Cart is empty', success: false })
-        }
-
-        // Calcular el total sumando los totalCart de cada producto
+        if (!cart || cart.produts.length === 0) return res.status(400).send({ message: 'Cart is empty', success: false })
+        
         let total = cart.produts.reduce((sum, item) => sum + (item.totalCart || 0), 0)
 
-        // Calcular IVA (12%)
         const iva = total * 0.12
         const grandTotal = total + iva
 
-        // Actualizar el stock de los productos en el carrito
-        for (const item of cart.produts) {
-            const product = await Product.findById(item.product._id)
+        const billProducts = cart.produts.map(item => ({
+            product: {
+                _id: item.product._id,
+                name: item.product.name,
+                price: item.product.price,
+                description: item.product.description
+            },
+            quantity: item.quantity,
+            totalCart: item.totalCart
+        }))
 
-            if (!product) {
-                return res.status(404).json({ message: `Product not found: ${item.product.name}`, success: false })
-            }
-
-            if (product.stock < item.quantity) {
-                return res.status(400).json({ 
-                    message: `Not enough stock for ${item.product.name} (Available: ${product.stock})`, 
-                    success: false 
-                })
-            }
-
-            // Restar del stock
-            product.stock -= item.quantity
-            await product.save()
-        }
-
-        // Crear la factura con el total calculado
         const bill = new Bill({
             user: userId,
-            cart: cart._id, // Asociamos la factura con el carrito
-            total: grandTotal // Total con IVA incluido
+            cart: cart._id,
+            products: billProducts,
+            total: grandTotal
         })
 
         await bill.save()
+        await Cart.findByIdAndDelete(cart._id)
 
         return res.json({
-            cart,
-            message: 'Purchase completed successfully, bill created, and stock updated',
-            bill: {
-                iva: parseFloat(iva.toFixed(2)),
-                total: grandTotal
-            },
-            success: true
-        })
-    } catch (err) {
-        console.error(err)
-        return res.status(500).json({ message: 'General error', success: false })
-    }
-}*/
-
-export const generateBill = async (req, res) => {
-    try {
-        const userId = req.user.id
-        
-
-        const cart = await Cart.findOne({ user: userId })
-            .populate('user', 'name username -_id')
-            .populate('produts.product', 'name price description stock')
-
-        if (!cart || cart.produts.length === 0) return res.status(400).json({ message: 'Cart is empty', success: false })
-        
-        let total = cart.produts.reduce((sum, item) => sum + (item.totalCart || 0), 0)
-
-        for (const item of cart.produts) {
-            const product = await Product.findById(item.product._id)
-
-            if (!product) return res.status(404).json({ message: `Product not found: ${item.product.name}`, success: false })
-
-            if (product.stock < item.quantity) {
-                return res.status(400).json({ 
-                    message: `Not enough stock for ${item.product.name} (Available: ${product.stock})`, 
-                    success: false 
-                })
-            }
-
-            product.stock -= item.quantity
-            await product.save()
-        }
-        const iva = total * 0.12
-        const grandTotal = total + iva
-
-        const bill = new Bill({
-            user: userId,
-            cart: cart._id, 
-            total: grandTotal 
-        })
-
-        await bill.save()
-
-        return res.send({
-            cart,
-            message: 'Purchase completed successfully',
-            bill: {
-                iva: parseFloat(iva.toFixed(2)),
-                total: grandTotal
-            },
+            message: 'Purchase completed successfully, bill created, and cart reset',
+            bill, 
             success: true
         })
     } catch (err) {
@@ -120,24 +54,37 @@ export const generateBill = async (req, res) => {
         return res.status(500).send({ message: 'General error', success: false })
     }
 }
-
 
 export const getUserBills = async (req, res) => {
     try {
         const { userId } = req.body
 
-        if (!userId) {
-            return res.status(400).json({ message: 'User ID is required', success: false })
-        }
+        const bills = await Bill.find({ user: userId })
+            .populate('user', 'name email -_id') 
+            .sort({ createdAt: -1 }) 
 
-        const bills = await Bill.find({ user: userId }).populate('cart')
+        if (!bills.length) return res.status(404).send({ message: 'bills not founded for this user', success: false })
 
-        if (!bills.length) return res.status(404).json({ message: 'No bills found for this user', success: false })
+        const formattedBills = bills.map(bill => ({
+            billId: bill._id,
+            user: bill.user,
+            createdAt: bill.createdAt,
+
+            products: bill.products.map(item => ({
+                id: item.product._id,
+                name: item.product.name,
+                description: item.product.description,
+                price: item.product.price,
+                quantity: item.quantity,
+                totalCart: item.totalCart
+            })),
         
+            total: bill.total.toFixed(2)
+        }))
 
-        return res.json({
+        return res.send({
             message: 'Bills retrieved successfully',
-            bills,
+            bills: formattedBills,
             success: true
         })
     } catch (err) {
@@ -145,3 +92,47 @@ export const getUserBills = async (req, res) => {
         return res.status(500).send({ message: 'General error', success: false })
     }
 }
+
+export const updateBill = async (req, res) => {
+    try {
+        const { billId, products } = req.body 
+        
+        const bill = await Bill.findById(billId)
+
+        if (!bill) return res.status(404).json({ message: 'Bill not found', success: false })
+        
+        let total = 0
+        for (const item of products) {
+            const product = await Product.findById(item.product)
+
+            if (!product) return res.status(404).send({ message: `Product not found: ${item.product}`, success: false })
+            
+            if (product.stock < item.quantity) {
+                return res.status(400).send({
+                    message: `Not enough stock for ${product.name} (Available: ${product.stock})`,
+                    success: false
+                })
+            }
+
+            total += product.price * item.quantity
+
+            product.stock -= item.quantity
+            await product.save()
+        }
+
+        bill.products = products
+        bill.total = total
+
+        await bill.save()
+
+        return res.send({
+            message: 'Bill updated successfully',
+            bill,
+            success: true
+        })
+    } catch (err) {
+        console.error(err)
+        return res.status(500).send({ message: 'General error', success: false })
+    }
+}
+
