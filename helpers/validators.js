@@ -105,3 +105,14 @@ export const updateClientValidator = [
     body('address','Address cannot be a blank ').optional().notEmpty(),
     validateErrors
 ]
+
+export const addCartValidator = [
+    body('productId','Product id is required').notEmpty(),
+    body('quantity','Quantity is required').notEmpty(),
+    validateErrors
+]
+
+export const userBillValidator = [
+    body('userId','User id is required').notEmpty(),
+    validateErrors
+]
