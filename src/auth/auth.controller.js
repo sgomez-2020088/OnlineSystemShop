@@ -21,6 +21,7 @@ export const login = async (req, res) => {
         let { userData, password } = req.body
 
         let user = await User.findOne({
+            
             $or: [
                 { email: userData },
                 { username: userData }
