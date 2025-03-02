@@ -7,7 +7,8 @@ import {
     deleteProduct, 
     getOutOfStock,
     productByName,
-    productByCategory
+    productByCategory,
+    getTopSellingProducts
 } from '../product/product.controller.js'
 
 import { validateJwt, isAdmin } from '../../middlewares/validate.jwt.js'
@@ -28,6 +29,7 @@ api.get('/stock',getOutOfStock)
 
 api.get('/name',[validateJwt, productNameValidator], productByName) 
 api.get('/category',[validateJwt, productCategoryValidator], productByCategory)
+api.get('/sell',[validateJwt],getTopSellingProducts)
 
 export default api
 
