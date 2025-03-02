@@ -93,46 +93,73 @@ export const getUserBills = async (req, res) => {
     }
 }
 
+
+
 export const updateBill = async (req, res) => {
     try {
-        const { billId, products } = req.body 
-        
+        const { billId, products } = req.body
+
+        // Buscar la factura por ID
         const bill = await Bill.findById(billId)
 
-        if (!bill) return res.status(404).json({ message: 'Bill not found', success: false })
-        
+        if (!bill) {
+            return res.status(404).json({ message: 'Bill not found', success: false })
+        }
+
         let total = 0
+
+        // Verificar y actualizar los productos existentes
         for (const item of products) {
             const product = await Product.findById(item.product)
 
-            if (!product) return res.status(404).send({ message: `Product not found: ${item.product}`, success: false })
-            
-            if (product.stock < item.quantity) {
-                return res.status(400).send({
+            if (!product) {
+                return res.status(404).json({ message: `Product not found: ${item.product}`, success: false })
+            }
+
+            // Verificar si el producto existe en la factura
+            const existingProduct = bill.products.find(p => p.product.toString() === item.product)
+
+            if (!existingProduct) {
+                return res.status(400).json({
+                    message: `Product ${product.name} is not part of this bill`,
+                    success: false
+                })
+            }
+
+            // Verificar stock disponible
+            const quantityDifference = item.quantity - existingProduct.quantity
+            if (product.stock < quantityDifference) {
+                return res.status(400).json({
                     message: `Not enough stock for ${product.name} (Available: ${product.stock})`,
                     success: false
                 })
             }
 
-            total += product.price * item.quantity
-
-            product.stock -= item.quantity
+            // Actualizar el stock del producto
+            product.stock -= quantityDifference
             await product.save()
+
+            // Actualizamos la cantidad y el total en la factura
+            existingProduct.quantity = item.quantity
+            existingProduct.totalCart = product.price * item.quantity
+
+            // Sumamos el total de la factura
+            total += existingProduct.totalCart
         }
 
-        bill.products = products
+        // Actualizamos el total de la factura
         bill.total = total
 
+        // Guardamos los cambios en la factura
         await bill.save()
 
-        return res.send({
+        return res.json({
             message: 'Bill updated successfully',
             bill,
             success: true
         })
     } catch (err) {
         console.error(err)
-        return res.status(500).send({ message: 'General error', success: false })
+        return res.status(500).json({ message: 'General error', success: false })
     }
 }
-
