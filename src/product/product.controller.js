@@ -1,6 +1,5 @@
 'use strict'
 import Product from './product.model.js'
-import Bill from '../bill/bill.model.js'
 
 export const addProduct = async (req, res) =>{
     try {
@@ -57,7 +56,6 @@ export const updateProduct = async (req, res) => {
         return res.status(500).send({ message: 'General error', success: false})
     }
 }
-
 
 
 export const deleteProduct = async (req, res) => {
@@ -122,54 +120,19 @@ export const productByCategory = async (req, res) =>{
     }
 }
 
-export const getTopSellingProducts = async (req, res) => {
+export const getBestSell= async (req, res) => {
     try {
-        // Obtenemos las facturas y poblamos el campo "produts.product" (ya que "produts" existe en tu modelo de factura o carrito)
-        const bills = await Bill.find()
-            .populate({
-                path: 'produts.product',  // Referencia al campo "produts.product"
-                select: 'name price description -_id'
-            });
+        const products = await Product.find({})
+            .sort({ countSell: -1 })
+            .select('name description price countSell') 
 
-        if (bills.length === 0) {
-            return res.status(404).json({ message: 'No bills found', success: false });
-        }
-
-        // Crear el objeto para contar las cantidades vendidas
-        const productSales = {};
-
-        // Recorrer todas las facturas y contar las ventas de cada producto
-        bills.forEach(bill => {
-            bill.produts.forEach(item => {
-                const productId = item.product._id.toString();
-
-                // Si el producto ya está en el objeto, sumamos la cantidad
-                if (productSales[productId]) {
-                    productSales[productId].quantity += item.quantity;
-                } else {
-                    // Si no está en el objeto, lo agregamos
-                    productSales[productId] = {
-                        product: item.product,
-                        quantity: item.quantity
-                    };
-                }
-            });
-        });
-
-        // Convertimos el objeto en un array
-        const productArray = Object.values(productSales);
-
-        // Ordenamos los productos por la cantidad vendida
-        productArray.sort((a, b) => b.quantity - a.quantity);
-
-        // Devolvemos los productos más vendidos
-        return res.json({
-            message: 'Top-selling products retrieved successfully',
-            products: productArray,
-            success: true
-        });
+        return res.status(200).send({
+            message: "Products found successfully",
+            success: true,
+            products
+        })
     } catch (err) {
-        console.error(err);
-        return res.status(500).json({ message: 'Error retrieving products', success: false });
+        console.error(err)
+        return res.status(500).send({ message: "General error", success: false })
     }
-};
+}
