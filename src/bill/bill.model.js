@@ -3,27 +3,36 @@ import { Schema, model, Types } from 'mongoose'
 const billSchema = Schema({
     user: {
         type: Types.ObjectId,
-        ref: 'User',    
+        ref: 'User',
+        required: [true, 'User is required']
     },
     cart: {
         type: Types.ObjectId,
-        ref: 'Cart',    
+        ref: 'Cart',
         required: [true, 'Cart is required']
     },
-    products: [  
+    products: [
         {
             product: {
-                _id: Types.ObjectId, 
-                name: String, 
-                price: Number, 
-                description: String 
+                type: Types.ObjectId,
+                ref: 'Product',
+                required: [true, 'Product is required']
             },
-            quantity: Number,
-            totalCart: Number
+            quantity: {
+                type: Number,
+                required: [true, 'Quantity is required'],
+                min: 1
+            },
+            price: {
+                type: Number,
+                required: [true, 'Price is required']
+            }
         }
     ],
-    total: {
-        type: Number,
+    status: {
+        type: String,
+        enum: ['pending', 'paid', 'cancelled'],
+        default: 'pending'
     }
 }, { timestamps: true })
 
