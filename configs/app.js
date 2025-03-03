@@ -15,7 +15,7 @@ import  {createDefaultAdmin} from '../configs/setUpData.js'
 
 const configs = (app)=>{
     app.use(express.json())
-    app.use(express.urlencoded({extended: false}))
+    app.use(express.urlencoded({extended: true}))
     app.use(cors())
     app.use(helmet())
     app.use(limiter)
