@@ -66,10 +66,10 @@ export const cancelBill = async (req, res) => {
         if (!bill) return res.status(404).send({ message: 'Bill not found', success: false })
         if (bill.status === 'cancelled') return res.status(400).send({ message: 'Bill is already cancelled', success: false })
         
-        for (const restored of bill.products) {
+        for (const item of bill.products) {
             const product = await Product.findById(item.product._id)
             if (product) {
-                product.stock -= restored.quantity
+                product.stock -= item.quantity
                 await product.save()
             }
         }
