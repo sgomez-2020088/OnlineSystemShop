@@ -1,5 +1,5 @@
 import { Router } from 'express'
-import { generateBill, getUserBill, updateBill, getHistoryUser} from '../bill/bill.controller.js'
+import { generateBill, getUserBill, updateBill, getHistoryUser, cancelBill} from '../bill/bill.controller.js'
 import { validateJwt, isAdmin } from '../../middlewares/validate.jwt.js'
 import { userBillValidator } from '../../helpers/validators.js'
 import { billData, updateStock, UserBills,formatUserBill,userHistoryBill,formatHistoryBill } from '../../middlewares/lowCut.js'
@@ -14,6 +14,8 @@ api.post('/client',[validateJwt, isAdmin, userBillValidator, UserBills, formatUs
 api.put('/update',[validateJwt, isAdmin],updateBill)
 
 api.get('/history',[validateJwt, userHistoryBill, formatHistoryBill], getHistoryUser)
+
+api.put('/delete',[validateJwt, isAdmin],cancelBill)
 
 
 
