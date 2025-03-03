@@ -1,17 +1,50 @@
-import Cart from '../cart/cart.model.js'
-import Product from '../product/product.model.js'
+import Cart from './cart.model.js'
+
+
 
 export const addCart = async (req, res) => {
     try {
-        const cart = req.cart
+        const { productId, quantity } = req.body
+        const userId = req.user.id
+
+        const product = req.product
+
+        let cart = await Cart.findOne({ user: userId })
+        if (!cart) cart = new Cart({ user: userId, products: [] })
+        
+
+        const existProduct = cart.products.findIndex(
+            (item) => item.product.toString() === productId
+        )
+
+        if (existProduct !== -1) {
+        cart.products[existProduct] = {
+            product: productId,
+            quantity,
+            price: product.price
+        }} else {
+        cart.products.push({
+            product: productId,
+            quantity,
+            price: product.price
+        })
+        }
+
+        cart.total = cart.products.reduce(
+        (total, item) => total + item.price * item.quantity,0)
 
         await cart.save()
 
-        const populatedCart = await Cart.findById(cart._id)
-            .populate('produts.product', 'name price description -_id')
-            .populate('user', 'name email -_id')
+        cart = await Cart.findOne({ user: userId })
+        .populate('products.product', 'name description')
+        .populate('user', 'name email -_id')
 
-        return res.send({ message: 'Product added to cart', cart: populatedCart, success: true })
+        return res.status(200).send({
+        message: 'Cart updated successfully',
+        success: true,
+        cart
+        })
+
     } catch (err) {
         console.error(err)
         return res.status(500).send({ message: 'General error', success: false })
@@ -19,30 +52,5 @@ export const addCart = async (req, res) => {
 }
 
 
-export const getCart = async (req, res) => {
-    try {
-        const userId = req.user.id
-        const cart = await Cart.findOne({ user: userId })
-            .populate({
-                path: 'produts.product',
-                select: 'name price description -_id',
-                populate: {
-                    path: 'category',
-                    select: 'name description -_id' 
-                }
-            })
-            .populate({
-                path: 'user',
-                select: 'name email -_id' 
-            })
-        
-        if (!cart || cart.produts.length === 0) {
-            return res.status(404).send({ message: 'Cart is empty', success: false })
-        }
 
-        return res.send({ message: 'All is right', cart, success: true })
-    } catch (err) {
-        console.error(err)
-        return res.status(500).send({ message: 'General error', success: false })
-    }
-}
+
