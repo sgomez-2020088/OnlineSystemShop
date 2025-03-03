@@ -31,7 +31,6 @@ export const login = async (req, res) => {
         if (!user) {
             return res.status(404).send({ message: 'User not found' })
         }
-
         let passwordMatch = await checkPassword(user.password, password)
 
         if (passwordMatch) {
