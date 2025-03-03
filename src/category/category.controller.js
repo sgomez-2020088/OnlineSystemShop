@@ -17,8 +17,11 @@ export const addCategory = async (req, res) =>{
 
 export const getAll = async (req, res) =>{
     try {
-        
+
+        const {limit = 20 , skip = 0} = req.query
         const categories = await Category.find()
+            .skip (skip)
+            .limit(limit)
         if(categories.length === 0) return res.status(400).send({message: 'Categories not found', success: false})
             return res.send({message: 'Categories found', success: true, categories})
     } catch (err) {

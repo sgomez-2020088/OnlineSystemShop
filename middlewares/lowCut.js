@@ -85,8 +85,7 @@ export const updateStock = async (req, res, next) => {
             const bills = req.bills
     
             const formattedBills = bills.map(bill => {
-                const subTotal = bill.products.reduce(
-              (total, item) => total + item.price * item.quantity,0)
+                const subTotal = bill.products.reduce((total, item) => total + item.price * item.quantity,0)
             const total = subTotal * 1.12
     
             const formattedProducts = bill.products.map(item => ({
@@ -118,16 +117,21 @@ export const updateStock = async (req, res, next) => {
 
     export const userHistoryBill = async (req, res, next) => {
         try {
+
+            
             const userId = req.user.id
+            const userStat = req.user.status
+            if( !userStat === true ) return res.status(404).send({message: 'Access denied, user not found', success: false})
+
+            const {limit = 20 , skip = 0} = req.query
             const bills = await Bill.find({ user: userId })
             .populate('user', 'name email -_id')
             .populate('products.product', 'name description price')
             .sort({ createdAt: -1 })
-    
-            if (!bills.length) {
-            return res.status(404).send({ message: 'No Bills found for this user', success: false })
-            }
-    
+            .skip (skip)
+            .limit(limit)
+            if (!bills.length) return res.status(404).send({ message: 'No Bills found for this user', success: false })
+            
             req.bills = bills
             next()
         } catch (err) {
@@ -146,6 +150,7 @@ export const updateStock = async (req, res, next) => {
                 billId: bill._id,
                 user: bill.user,
                 createdAt: bill.createdAt,
+
                 products: bill.products.map(item => ({
                 id: item.product._id,
                 name: item.product.name,

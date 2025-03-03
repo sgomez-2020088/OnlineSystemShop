@@ -112,6 +112,8 @@ export const updateBill = async (req, res) => {
 
 export const getHistoryUser = (req, res) => {
     return res.send({
+        
+        
         message: 'Bills retrieved successfully',
         success: true,
         bills: req.formattedBills

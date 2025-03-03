@@ -17,11 +17,16 @@ export const addProduct = async (req, res) =>{
 
 export const getAllProducts = async (req, res) => {
     try {
+
+        const {limit = 20 , skip = 0} = req.query
         const products = await Product.find({
             status: {$ne : false},
             stock: { $ne: 0}
 
         }).populate('category', 'name -_id')
+        .skip (skip)
+        .limit (limit)
+
         if(products.length === 0) return res.status(400).send({message: 'Products not found', succes: false})
             return res.send({message: 'Products found',products, succes: true})
     } catch (err) {
@@ -75,7 +80,10 @@ export const deleteProduct = async (req, res) => {
 
 export const getOutOfStock = async (req, res) => {
     try {
+        const {limit = 20 , skip = 0} = req.query
         const outOfStock = await Product.find({ stock: 0 })
+        .limit (limit)
+        .skip (skip)
         if(outOfStock.length === 0) return res.send({message:'No one out of stock'})
             return res.send(outOfStock)
     } catch (err) {
@@ -88,11 +96,14 @@ export const productByName = async (req, res) => {
     try {
         const name = req.body.name
         
+        const {limit = 20 , skip = 0} = req.query
         const products = await Product.find({
             name: { $regex: name, $options: 'i' }, 
             status: { $ne: false },
             stock: { $gt: 0 }
         }).populate('category', 'name')
+        .limit ( limit)
+        .skip(skip)
         if (products.length === 0) return res.status(404).send({ message: 'No products found', success: false })
 
             return res.send({ message: 'Products found', products, success: true })
@@ -105,11 +116,14 @@ export const productByName = async (req, res) => {
 export const productByCategory = async (req, res) =>{
     try {
         const category = req.body.category
+        const {limit = 20 , skip = 0} = req.query
         const products = await Product.find({
             category: category,
             status: { $ne: false },
             stock: { $gt: 0 }
         }).populate('category', 'name')
+        .skip( skip)
+        .limit(limit)
 
         if(products.length === 0) return res.status(404).send({message: 'No products found', success: false})
 
