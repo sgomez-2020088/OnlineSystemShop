@@ -28,12 +28,12 @@
 									"urlencoded": [
 										{
 											"key": "name",
-											"value": "Categoria 2",
+											"value": "Tecnologia 2",
 											"type": "text"
 										},
 										{
 											"key": "description",
-											"value": "description 2",
+											"value": "nuevos",
 											"type": "text"
 										}
 									]
@@ -104,7 +104,7 @@
 									"urlencoded": [
 										{
 											"key": "id",
-											"value": "67bca2db9a857a65c7d8e595",
+											"value": "67c5d554edef478afd0a415c",
 											"type": "text"
 										},
 										{
@@ -115,7 +115,7 @@
 										},
 										{
 											"key": "description",
-											"value": "Soy un radiador?",
+											"value": "hola",
 											"type": "text"
 										}
 									]
@@ -152,7 +152,7 @@
 									"urlencoded": [
 										{
 											"key": "id",
-											"value": "67bca2db9a857a65c7d8e595",
+											"value": "67c5af37a98c21412aea53f0",
 											"type": "text"
 										}
 									]
@@ -194,27 +194,27 @@
 									"urlencoded": [
 										{
 											"key": "name",
-											"value": "Nintendo switch",
+											"value": "Tele",
 											"type": "text"
 										},
 										{
 											"key": "description",
-											"value": "pa jugar",
+											"value": "30 pulgadas",
 											"type": "text"
 										},
 										{
 											"key": "price",
-											"value": "3500",
+											"value": "1500",
 											"type": "text"
 										},
 										{
 											"key": "stock",
-											"value": "34",
+											"value": "5",
 											"type": "text"
 										},
 										{
 											"key": "category",
-											"value": "67ad2b369a83f7d623465e53",
+											"value": "67c5d554edef478afd0a415c",
 											"type": "text"
 										}
 									]
@@ -314,7 +314,7 @@
 									"urlencoded": [
 										{
 											"key": "id",
-											"value": "67bca709513f7451caf1d009",
+											"value": "67c5aee0a98c21412aea53e1",
 											"type": "text"
 										}
 									]
@@ -351,7 +351,7 @@
 									"urlencoded": [
 										{
 											"key": "id",
-											"value": "67af723af47f0cc35ab0304f",
+											"value": "67c5c7191e37e3153211be14",
 											"type": "text"
 										},
 										{
@@ -362,7 +362,7 @@
 										},
 										{
 											"key": "description",
-											"value": "",
+											"value": "45 pulgadas",
 											"type": "text",
 											"disabled": true
 										},
@@ -374,7 +374,7 @@
 										},
 										{
 											"key": "stock",
-											"value": "0",
+											"value": "5",
 											"type": "text"
 										},
 										{
@@ -417,7 +417,7 @@
 									"urlencoded": [
 										{
 											"key": "id",
-											"value": "67af5f239faf2e830e7b3869",
+											"value": "67c5d58bedef478afd0a4165",
 											"type": "text"
 										}
 									]
@@ -559,6 +559,11 @@
 											"key": "role",
 											"value": "ADMIN",
 											"type": "text"
+										},
+										{
+											"key": "username",
+											"value": "jbravo",
+											"type": "text"
 										}
 									]
 								},
@@ -594,7 +599,7 @@
 									"urlencoded": [
 										{
 											"key": "id",
-											"value": "67ae864f77309c64e0e26147",
+											"value": "67c5d640edef478afd0a418e",
 											"type": "text"
 										},
 										{
@@ -604,10 +609,9 @@
 											"disabled": true
 										},
 										{
-											"key": "surname",
-											"value": "Bravo",
-											"type": "text",
-											"disabled": true
+											"key": "username",
+											"value": "ahoramasbravo",
+											"type": "text"
 										},
 										{
 											"key": "email",
@@ -635,7 +639,7 @@
 										},
 										{
 											"key": "role",
-											"value": "CLIENT",
+											"value": "ADMIN",
 											"type": "text"
 										}
 									]
@@ -672,7 +676,7 @@
 									"urlencoded": [
 										{
 											"key": "id",
-											"value": "67ae864f77309c64e0e26147",
+											"value": "67c5c73c1e37e3153211be17",
 											"type": "text"
 										}
 									]
@@ -714,7 +718,7 @@
 									"urlencoded": [
 										{
 											"key": "userId",
-											"value": "67bfcdb9399162614c3e0686",
+											"value": "67c5ae5da98c21412aea53c6",
 											"type": "text"
 										}
 									]
@@ -763,22 +767,22 @@
 									"urlencoded": [
 										{
 											"key": "billId",
-											"value": "67c4cb13679bd0cc724471b1",
+											"value": "67c5b3e7f806d076fecd28e0",
 											"type": "text"
 										},
 										{
 											"key": "products[0][productId]",
-											"value": "67ae8f6f2cb2e2c5a249be9e",
+											"value": "67c5aee0a98c21412aea53e1",
 											"type": "text"
 										},
 										{
 											"key": "products[0][quantity]",
-											"value": "1",
+											"value": "2",
 											"type": "text"
 										},
 										{
 											"key": "products[0][price]",
-											"value": "41",
+											"value": "3500",
 											"type": "text"
 										}
 									]
@@ -794,6 +798,55 @@
 										"v1",
 										"bill",
 										"update"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Delete bill",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "{{token}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "urlencoded",
+									"urlencoded": [
+										{
+											"key": "billId",
+											"value": "67c5d743edef478afd0a41e7",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "http://localhost:3628/v1/bill/delete",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3628",
+									"path": [
+										"v1",
+										"bill",
+										"delete"
 									]
 								}
 							},
@@ -825,12 +878,12 @@
 									"urlencoded": [
 										{
 											"key": "productId",
-											"value": "67ae8f6f2cb2e2c5a249be9e",
+											"value": "67c5af0ca98c21412aea53e4",
 											"type": "text"
 										},
 										{
 											"key": "quantity",
-											"value": "5",
+											"value": "1",
 											"type": "text"
 										}
 									]
@@ -852,12 +905,9 @@
 							"response": []
 						},
 						{
-							"name": "Get cart",
-							"protocolProfileBehavior": {
-								"disableBodyPruning": true
-							},
+							"name": "Delete product cart",
 							"request": {
-								"method": "GET",
+								"method": "PUT",
 								"header": [
 									{
 										"key": "Authorization",
@@ -867,10 +917,21 @@
 								],
 								"body": {
 									"mode": "urlencoded",
-									"urlencoded": []
+									"urlencoded": [
+										{
+											"key": "productId",
+											"value": "67c5aee0a98c21412aea53e1",
+											"type": "text"
+										},
+										{
+											"key": "quantity",
+											"value": "0",
+											"type": "text"
+										}
+									]
 								},
 								"url": {
-									"raw": "http://localhost:3628/v1/cart/get",
+									"raw": "http://localhost:3628/v1/cart/update",
 									"protocol": "http",
 									"host": [
 										"localhost"
@@ -879,7 +940,7 @@
 									"path": [
 										"v1",
 										"cart",
-										"get"
+										"update"
 									]
 								}
 							},
@@ -987,7 +1048,7 @@
 									"urlencoded": [
 										{
 											"key": "name",
-											"value": "lego",
+											"value": "Aceta",
 											"type": "text"
 										}
 									]
@@ -1067,7 +1128,7 @@
 									"urlencoded": [
 										{
 											"key": "category",
-											"value": "67ad2b369a83f7d623465e53",
+											"value": "67c5ae80a98c21412aea53cb",
 											"type": "text"
 										}
 									]
@@ -1257,22 +1318,22 @@
 					"urlencoded": [
 						{
 							"key": "name",
-							"value": "Daniel",
+							"value": "Jony",
 							"type": "text"
 						},
 						{
 							"key": "surname",
-							"value": "Gomez",
+							"value": "Guitierrez",
 							"type": "text"
 						},
 						{
 							"key": "username",
-							"value": "dgomez",
+							"value": "jgodoy",
 							"type": "text"
 						},
 						{
 							"key": "email",
-							"value": "sgomez2-2020088@kinal.edu.gt",
+							"value": "jgodoy-2020088@kinal.edu.gt",
 							"type": "text"
 						},
 						{
@@ -1335,8 +1396,9 @@
 					"urlencoded": [
 						{
 							"key": "userData",
-							"value": "dgomez",
-							"type": "text"
+							"value": "sgomez",
+							"type": "text",
+							"disabled": true
 						},
 						{
 							"key": "password",
@@ -1346,8 +1408,7 @@
 						{
 							"key": "userData",
 							"value": "admin",
-							"type": "text",
-							"disabled": true
+							"type": "text"
 						}
 					]
 				},
@@ -1360,13 +1421,6 @@
 					"port": "3628",
 					"path": [
 						"login"
-					],
-					"query": [
-						{
-							"key": "password",
-							"value": "Chejo/2k.25",
-							"disabled": true
-						}
 					]
 				}
 			},
