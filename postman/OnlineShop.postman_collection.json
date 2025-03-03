@@ -1,0 +1,1376 @@
+{
+	"info": {
+		"_postman_id": "004e6861-ced1-43e7-bbcf-95a4c6d4ea40",
+		"name": "OnlineShop",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "37951897"
+	},
+	"item": [
+		{
+			"name": "Admin",
+			"item": [
+				{
+					"name": "CATEGORY",
+					"item": [
+						{
+							"name": "Add Category",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "{{token}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "urlencoded",
+									"urlencoded": [
+										{
+											"key": "name",
+											"value": "Categoria 2",
+											"type": "text"
+										},
+										{
+											"key": "description",
+											"value": "description 2",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "http://localhost:3628/v1/category/add",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3628",
+									"path": [
+										"v1",
+										"category",
+										"add"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GetAll Category",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "{{token}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "urlencoded",
+									"urlencoded": []
+								},
+								"url": {
+									"raw": "http://localhost:3628/v1/category/all",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3628",
+									"path": [
+										"v1",
+										"category",
+										"all"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Update category",
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "{{token}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "urlencoded",
+									"urlencoded": [
+										{
+											"key": "id",
+											"value": "67bca2db9a857a65c7d8e595",
+											"type": "text"
+										},
+										{
+											"key": "name",
+											"value": "adios",
+											"type": "text",
+											"disabled": true
+										},
+										{
+											"key": "description",
+											"value": "Soy un radiador?",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "http://localhost:3628/v1/category/update",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3628",
+									"path": [
+										"v1",
+										"category",
+										"update"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Delete category",
+							"request": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "{{token}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "urlencoded",
+									"urlencoded": [
+										{
+											"key": "id",
+											"value": "67bca2db9a857a65c7d8e595",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "http://localhost:3628/v1/category/delete",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3628",
+									"path": [
+										"v1",
+										"category",
+										"delete"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "PRODUCT",
+					"item": [
+						{
+							"name": "Add Product",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "{{token}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "urlencoded",
+									"urlencoded": [
+										{
+											"key": "name",
+											"value": "Nintendo switch",
+											"type": "text"
+										},
+										{
+											"key": "description",
+											"value": "pa jugar",
+											"type": "text"
+										},
+										{
+											"key": "price",
+											"value": "3500",
+											"type": "text"
+										},
+										{
+											"key": "stock",
+											"value": "34",
+											"type": "text"
+										},
+										{
+											"key": "category",
+											"value": "67ad2b369a83f7d623465e53",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "http://localhost:3628/v1/product/add",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3628",
+									"path": [
+										"v1",
+										"product",
+										"add"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get All",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "{{token}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "urlencoded",
+									"urlencoded": [
+										{
+											"key": "name",
+											"value": "Prueba1",
+											"type": "text"
+										},
+										{
+											"key": "description",
+											"value": "Prueba1",
+											"type": "text"
+										},
+										{
+											"key": "price",
+											"value": "200",
+											"type": "text"
+										},
+										{
+											"key": "stock",
+											"value": "2",
+											"type": "text"
+										},
+										{
+											"key": "category",
+											"value": "67ad2b3f9a83f7d623465e55",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "http://localhost:3628/v1/product/all",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3628",
+									"path": [
+										"v1",
+										"product",
+										"all"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get One product",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "{{token}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "urlencoded",
+									"urlencoded": [
+										{
+											"key": "id",
+											"value": "67bca709513f7451caf1d009",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "http://localhost:3628/v1/product/one",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3628",
+									"path": [
+										"v1",
+										"product",
+										"one"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Update product",
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "{{token}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "urlencoded",
+									"urlencoded": [
+										{
+											"key": "id",
+											"value": "67af723af47f0cc35ab0304f",
+											"type": "text"
+										},
+										{
+											"key": "name",
+											"value": "Ajedrez 4",
+											"type": "text",
+											"disabled": true
+										},
+										{
+											"key": "description",
+											"value": "",
+											"type": "text",
+											"disabled": true
+										},
+										{
+											"key": "price",
+											"value": "2450",
+											"type": "text",
+											"disabled": true
+										},
+										{
+											"key": "stock",
+											"value": "0",
+											"type": "text"
+										},
+										{
+											"key": "category",
+											"value": "",
+											"type": "text",
+											"disabled": true
+										}
+									]
+								},
+								"url": {
+									"raw": "http://localhost:3628/v1/product/update",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3628",
+									"path": [
+										"v1",
+										"product",
+										"update"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Delete product",
+							"request": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "{{token}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "urlencoded",
+									"urlencoded": [
+										{
+											"key": "id",
+											"value": "67af5f239faf2e830e7b3869",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "http://localhost:3628/v1/product/delete",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3628",
+									"path": [
+										"v1",
+										"product",
+										"delete"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get no Stock",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "{{token}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "urlencoded",
+									"urlencoded": []
+								},
+								"url": {
+									"raw": "http://localhost:3628/v1/product/stock",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3628",
+									"path": [
+										"v1",
+										"product",
+										"stock"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get best sell",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "{{token}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "urlencoded",
+									"urlencoded": []
+								},
+								"url": {
+									"raw": "http://localhost:3628/v1/product/sell",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3628",
+									"path": [
+										"v1",
+										"product",
+										"sell"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "USER",
+					"item": [
+						{
+							"name": "Register User",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "{{token}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "urlencoded",
+									"urlencoded": [
+										{
+											"key": "name",
+											"value": "Bravo",
+											"type": "text"
+										},
+										{
+											"key": "surname",
+											"value": "Jony",
+											"type": "text"
+										},
+										{
+											"key": "email",
+											"value": "bravo-20200912@kinal.edu.gt",
+											"type": "text"
+										},
+										{
+											"key": "password",
+											"value": "Chejo/2k.25",
+											"type": "text"
+										},
+										{
+											"key": "phone",
+											"value": "12341234",
+											"type": "text"
+										},
+										{
+											"key": "address",
+											"value": "zona 10",
+											"type": "text"
+										},
+										{
+											"key": "role",
+											"value": "ADMIN",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "http://localhost:3628/v1/user/add",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3628",
+									"path": [
+										"v1",
+										"user",
+										"add"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Update User",
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "{{token}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "urlencoded",
+									"urlencoded": [
+										{
+											"key": "id",
+											"value": "67ae864f77309c64e0e26147",
+											"type": "text"
+										},
+										{
+											"key": "name",
+											"value": "Jony",
+											"type": "text",
+											"disabled": true
+										},
+										{
+											"key": "surname",
+											"value": "Bravo",
+											"type": "text",
+											"disabled": true
+										},
+										{
+											"key": "email",
+											"value": "cgomitas-20200882@kinal.edu.gt",
+											"type": "text",
+											"disabled": true
+										},
+										{
+											"key": "password",
+											"value": "Chejo/2k.25",
+											"type": "text",
+											"disabled": true
+										},
+										{
+											"key": "phone",
+											"value": "11223344",
+											"type": "text",
+											"disabled": true
+										},
+										{
+											"key": "address",
+											"value": "zona 10 ",
+											"type": "text",
+											"disabled": true
+										},
+										{
+											"key": "role",
+											"value": "CLIENT",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "http://localhost:3628/v1/user/update",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3628",
+									"path": [
+										"v1",
+										"user",
+										"update"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Update User",
+							"request": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "{{token}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "urlencoded",
+									"urlencoded": [
+										{
+											"key": "id",
+											"value": "67ae864f77309c64e0e26147",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "http://localhost:3628/v1/user/delete",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3628",
+									"path": [
+										"v1",
+										"user",
+										"delete"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "BILL",
+					"item": [
+						{
+							"name": "Get user bill",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "{{token}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "urlencoded",
+									"urlencoded": [
+										{
+											"key": "userId",
+											"value": "67bfcdb9399162614c3e0686",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "http://localhost:3628/v1/bill/client",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3628",
+									"path": [
+										"v1",
+										"bill",
+										"client"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Update Bill",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "{{token}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "urlencoded",
+									"urlencoded": [
+										{
+											"key": "billId",
+											"value": "67c4cb13679bd0cc724471b1",
+											"type": "text"
+										},
+										{
+											"key": "products[0][productId]",
+											"value": "67ae8f6f2cb2e2c5a249be9e",
+											"type": "text"
+										},
+										{
+											"key": "products[0][quantity]",
+											"value": "1",
+											"type": "text"
+										},
+										{
+											"key": "products[0][price]",
+											"value": "41",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "http://localhost:3628/v1/bill/update",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3628",
+									"path": [
+										"v1",
+										"bill",
+										"update"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Client",
+			"item": [
+				{
+					"name": "CART",
+					"item": [
+						{
+							"name": "Add Cart",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "{{token}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "urlencoded",
+									"urlencoded": [
+										{
+											"key": "productId",
+											"value": "67ae8f6f2cb2e2c5a249be9e",
+											"type": "text"
+										},
+										{
+											"key": "quantity",
+											"value": "5",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "http://localhost:3628/v1/cart/add",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3628",
+									"path": [
+										"v1",
+										"cart",
+										"add"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get cart",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "{{token}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "urlencoded",
+									"urlencoded": []
+								},
+								"url": {
+									"raw": "http://localhost:3628/v1/cart/get",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3628",
+									"path": [
+										"v1",
+										"cart",
+										"get"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "BILL",
+					"item": [
+						{
+							"name": "CREATE Bill",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "{{token}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "urlencoded",
+									"urlencoded": []
+								},
+								"url": {
+									"raw": "http://localhost:3628/v1/bill/bill",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3628",
+									"path": [
+										"v1",
+										"bill",
+										"bill"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "CATEGORY",
+					"item": [
+						{
+							"name": "GetAll Category",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "{{token}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "urlencoded",
+									"urlencoded": []
+								},
+								"url": {
+									"raw": "http://localhost:3628/v1/category/all",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3628",
+									"path": [
+										"v1",
+										"category",
+										"all"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "PRODUCT",
+					"item": [
+						{
+							"name": "Get product name",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "{{token}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "urlencoded",
+									"urlencoded": [
+										{
+											"key": "name",
+											"value": "lego",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "http://localhost:3628/v1/product/name",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3628",
+									"path": [
+										"v1",
+										"product",
+										"name"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get more sell",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "{{token}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "urlencoded",
+									"urlencoded": [
+										{
+											"key": "name",
+											"value": "lego",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "http://localhost:3628/v1/product/sell",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3628",
+									"path": [
+										"v1",
+										"product",
+										"sell"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get product by category",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "{{token}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "urlencoded",
+									"urlencoded": [
+										{
+											"key": "category",
+											"value": "67ad2b369a83f7d623465e53",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "http://localhost:3628/v1/product/category",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3628",
+									"path": [
+										"v1",
+										"product",
+										"category"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "History",
+					"item": [
+						{
+							"name": "History",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "{{token}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "urlencoded",
+									"urlencoded": []
+								},
+								"url": {
+									"raw": "http://localhost:3628/v1/bill/history",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3628",
+									"path": [
+										"v1",
+										"bill",
+										"history"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Update Client",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "name",
+									"value": "Chejito1",
+									"type": "text"
+								},
+								{
+									"key": "surname",
+									"value": "",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "username",
+									"value": "",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "email",
+									"value": "",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "phone",
+									"value": "",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "address",
+									"value": "",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "oldPass",
+									"value": "Parmas./255",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "newPassword",
+									"value": "Parmas./25",
+									"type": "text",
+									"disabled": true
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:3628/v1/user/editClient",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3628",
+							"path": [
+								"v1",
+								"user",
+								"editClient"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Client",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "password",
+									"value": "Parmas./25",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:3628/v1/user/deleteClient",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3628",
+							"path": [
+								"v1",
+								"user",
+								"deleteClient"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Register USER",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "name",
+							"value": "Daniel",
+							"type": "text"
+						},
+						{
+							"key": "surname",
+							"value": "Gomez",
+							"type": "text"
+						},
+						{
+							"key": "username",
+							"value": "dgomez",
+							"type": "text"
+						},
+						{
+							"key": "email",
+							"value": "sgomez2-2020088@kinal.edu.gt",
+							"type": "text"
+						},
+						{
+							"key": "password",
+							"value": "Parmas./25",
+							"type": "text"
+						},
+						{
+							"key": "phone",
+							"value": "11223344",
+							"type": "text"
+						},
+						{
+							"key": "address",
+							"value": "30 av 18-03",
+							"type": "text"
+						},
+						{
+							"key": "status",
+							"value": "",
+							"type": "text",
+							"disabled": true
+						}
+					]
+				},
+				"url": {
+					"raw": "http://localhost:3628/registerUser",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3628",
+					"path": [
+						"registerUser"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Login USER",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var data = JSON.parse(responseBody);\r",
+							"postman.setGlobalVariable(\"token\",data.token);"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "userData",
+							"value": "dgomez",
+							"type": "text"
+						},
+						{
+							"key": "password",
+							"value": "Parmas./25",
+							"type": "text"
+						},
+						{
+							"key": "userData",
+							"value": "admin",
+							"type": "text",
+							"disabled": true
+						}
+					]
+				},
+				"url": {
+					"raw": "http://localhost:3628/login",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3628",
+					"path": [
+						"login"
+					],
+					"query": [
+						{
+							"key": "password",
+							"value": "Chejo/2k.25",
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
