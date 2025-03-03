@@ -122,7 +122,7 @@ export const updateStock = async (req, res, next) => {
             const userId = req.user.id
 
             const {limit = 20 , skip = 0} = req.query
-            const bills = await Bill.find({ user: userId })
+            const bills = await Bill.find({ user: userId, status: { $ne: 'cancelled' } })
             .populate('user', 'name email -_id')
             .populate('products.product', 'name description price')
             .sort({ createdAt: -1 })
