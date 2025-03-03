@@ -120,8 +120,6 @@ export const updateStock = async (req, res, next) => {
 
             
             const userId = req.user.id
-            const userStat = req.user.status
-            if( !userStat === true ) return res.status(404).send({message: 'Access denied, user not found', success: false})
 
             const {limit = 20 , skip = 0} = req.query
             const bills = await Bill.find({ user: userId })
