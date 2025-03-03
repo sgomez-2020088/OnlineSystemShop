@@ -1,165 +1,119 @@
 import Cart from '../cart/cart.model.js'
-import Product from '../product/product.model.js'
 import Bill from '../bill/bill.model.js'
+import Product from '../product/product.model.js'
 
-
-/*El problema ocurre porque al momento de guardar la factura, solo estamos almacenando el ObjectId del producto en products.product.
-Cuando respondemos con la factura creada, no hemos poblado esos ObjectId con los detalles del producto.
-*/
 export const generateBill = async (req, res) => {
     try {
         const userId = req.user.id
-        const cart = await Cart.findOne({ user: userId })
-            .populate('user', 'name email -_id')
-            .populate({
-                path: 'produts.product',
-                select: 'name price description -_id'
-            })
-
-        if (!cart || cart.produts.length === 0) return res.status(400).send({ message: 'Cart is empty', success: false })
-        
-        let total = cart.produts.reduce((sum, item) => sum + (item.totalCart || 0), 0)
-
-        const iva = total * 0.12
-        const grandTotal = total + iva
-
-        const billProducts = cart.produts.map(item => ({
-            product: {
-                _id: item.product._id,
-                name: item.product.name,
-                price: item.product.price,
-                description: item.product.description
-            },
-            quantity: item.quantity,
-            totalCart: item.totalCart
-        }))
+        const { cart, subTotal, total } = req.billingData
 
         const bill = new Bill({
             user: userId,
             cart: cart._id,
-            products: billProducts,
-            total: grandTotal
+            products: cart.products.map(item => ({
+            product: item.product._id,
+            quantity: item.quantity,
+            price: item.price
+            }))
         })
 
         await bill.save()
         await Cart.findByIdAndDelete(cart._id)
 
-        return res.json({
-            message: 'Purchase completed successfully, bill created, and cart reset',
-            bill, 
-            success: true
-        })
+        const populatedBill = await Bill.findById(bill._id)
+        .populate('products.product', 'name description price')
+        .populate('user', 'name email')
+
+        return res.status(200).send({
+        message: 'Bill created successfully',
+        success: true,
+        bill: {
+            //spread
+            ...populatedBill.toJSON(),
+            subTotal: subTotal.toFixed(2),
+            total: total.toFixed(2)
+        }
+    })
+
     } catch (err) {
         console.error(err)
         return res.status(500).send({ message: 'General error', success: false })
     }
 }
 
-export const getUserBills = async (req, res) => {
-    try {
-        const { userId } = req.body
-
-        const bills = await Bill.find({ user: userId })
-            .populate('user', 'name email -_id') 
-            .sort({ createdAt: -1 }) 
-
-        if (!bills.length) return res.status(404).send({ message: 'bills not founded for this user', success: false })
-
-        const formattedBills = bills.map(bill => ({
-            billId: bill._id,
-            user: bill.user,
-            createdAt: bill.createdAt,
-
-            products: bill.products.map(item => ({
-                id: item.product._id,
-                name: item.product.name,
-                description: item.product.description,
-                price: item.product.price,
-                quantity: item.quantity,
-                totalCart: item.totalCart
-            })),
-        
-            total: bill.total.toFixed(2)
-        }))
-
-        return res.send({
-            message: 'Bills retrieved successfully',
-            bills: formattedBills,
-            success: true
-        })
-    } catch (err) {
-        console.error(err)
-        return res.status(500).send({ message: 'General error', success: false })
-    }
+export const getUserBill = (req, res) => {
+    return res.send({
+    message: 'Bills found successfully',
+    success: true,
+    bills: req.formattedBills
+    })
 }
-
-
 
 export const updateBill = async (req, res) => {
     try {
-        const { billId, products } = req.body
+        const { billId } = req.body  
+        const { products } = req.body  
 
-        // Buscar la factura por ID
-        const bill = await Bill.findById(billId)
 
-        if (!bill) {
-            return res.status(404).json({ message: 'Bill not found', success: false })
-        }
+        if (!products || !Array.isArray(products)) return res.status(400).send({ message: 'Products array is required', success: false })
+        
+        const bill = await Bill.findById(billId).populate('products.product')
 
-        let total = 0
+        if (!bill) return res.status(404).send({ message: 'Bill not found', success: false })
+        
+        for (let i = 0; i < products.length; i++) {
+            const { productId, quantity } = products[i]
 
-        // Verificar y actualizar los productos existentes
-        for (const item of products) {
-            const product = await Product.findById(item.product)
+            const product = await Product.findById(productId)
 
-            if (!product) {
-                return res.status(404).json({ message: `Product not found: ${item.product}`, success: false })
-            }
-
-            // Verificar si el producto existe en la factura
-            const existingProduct = bill.products.find(p => p.product.toString() === item.product)
-
-            if (!existingProduct) {
-                return res.status(400).json({
-                    message: `Product ${product.name} is not part of this bill`,
+            if (!product) return res.status(404).send({ message: `Product ${productId} not found`, success: false })
+            
+            if (product.stock < quantity) {
+                return res.status(400).send({
+                    message: `Not enough stock for product ${product.name}. Only ${product.stock} available.`,
                     success: false
                 })
             }
-
-            // Verificar stock disponible
-            const quantityDifference = item.quantity - existingProduct.quantity
-            if (product.stock < quantityDifference) {
-                return res.status(400).json({
-                    message: `Not enough stock for ${product.name} (Available: ${product.stock})`,
-                    success: false
-                })
-            }
-
-            // Actualizar el stock del producto
-            product.stock -= quantityDifference
-            await product.save()
-
-            // Actualizamos la cantidad y el total en la factura
-            existingProduct.quantity = item.quantity
-            existingProduct.totalCart = product.price * item.quantity
-
-            // Sumamos el total de la factura
-            total += existingProduct.totalCart
         }
 
-        // Actualizamos el total de la factura
-        bill.total = total
+        bill.products = products.map(item => ({
+            product: item.productId,
+            quantity: item.quantity,
+            price: item.price  
+        }))
 
-        // Guardamos los cambios en la factura
+
+        const subTotal = bill.products.reduce((total, item) => total + item.price * item.quantity, 0)
+        const total = subTotal * 1.12
+
+        bill.subTotal = subTotal.toFixed(2)
+        bill.total = total.toFixed(2)
+
+        bill.status = 'paid'
         await bill.save()
 
-        return res.json({
+        const updatedBill = await Bill.findById(billId)
+            .populate('products.product', 'name description price')
+            .populate('user', 'name email -_id ')
+
+        return res.status(200).send({
             message: 'Bill updated successfully',
-            bill,
-            success: true
+            success: true,
+            bill: updatedBill,
+            subTotal: bill.subTotal,
+            total: (bill.total)
         })
+
     } catch (err) {
         console.error(err)
-        return res.status(500).json({ message: 'General error', success: false })
+        return res.status(500).send({ message: 'General error', success: false })
     }
+}
+
+export const getHistoryUser = (req, res) => {
+    return res.send({
+        message: 'Bills retrieved successfully',
+        success: true,
+        bills: req.formattedBills
+    })
 }
