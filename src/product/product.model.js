@@ -29,6 +29,10 @@ const productSchema = Schema({
         type: Boolean,
         required: [true, 'Status is required'],
         default: true
+    },
+    countSell:{
+        type: Number,
+        default: 0
     }
 })
 
